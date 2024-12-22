@@ -53,30 +53,32 @@ concept_list = [
 def add_custom_words(kiwi, text):
         # 다양한 패턴을 찾는 정규 표현식
         patterns = [
-            r'\{\d+\}',                     # {숫자}        ex) {8}
-            r'\{[a-zA-Z]+\}',               # {알파벳}      ex) {a} 
-            r'[a-zA-Z]\^\{\d+\}',           # 알파벳^{숫자}  ex) a^{3}
-            r'\d+\^\{\d+\}',                # 숫자^{숫자}  ex) a^{3}
-            r'\d+[a-zA-Z]\^\{\d+\}',        # 숫자*알파벳^{숫자}  ex) 3a^{3}
-            r'\([a-zA-Z]\+\d+\)',           # (알파벳+숫자)  ex) (a+2)  
-            r'\([a-zA-Z]\-\d+\)',           # (알파벳-숫자)  ex) (a-2)
-            r'\([a-zA-Z]+\+[a-zA-Z]+\)',    # (알파벳+알파벳) ex) (a+b) 
-            r'\([a-zA-Z]\-[a-zA-Z]+\)',     #(알파벳-알파벳)  ex) (a-b)
-            r'\(\d+\+[a-zA-Z]\)',           #(숫자+알파벳)   ex) (3+a)
-            r'\(\d+\-[a-zA-Z]\)',           #(숫자-알파벳)   ex) (3-a)
-            r'\d+[a-zA-Z]',                 #숫자*알파벳     ex) 8a
-            r'[a-zA-Z]\_\d+',               #알파벳_숫자     ex) a_7    
-            r'[a-zA-Z]\_[a-zA-Z]',          #알파벳_알파벳    ex) a_k
-            r'\d+[a-zA-Z]\_\d+',            #숫자*알파벳_숫자 ex) 3a_4
-            r'\d+[a-zA-Z]\_\[a-zA-Z]',      #숫자*알파벳_알파벳 ex) 3a_k
-            r'sum_\{[a-z]=\d+\}\^\{\d+\}'            #sum_{알파벳=숫자} ex) sum_{n=1} 
+            r'\{\d+\}',                     # {숫자}                ex) {8}
+            r'\{[a-zA-Z]+\}',               # {알파벳}              ex) {a} 
+            r'[a-zA-Z]\^\{\d+\}',           # 알파벳^{숫자}         ex) a^{3}
+            r'\d+\^\{\d+\}',                # 숫자^{숫자}           ex) 2^{3}
+            r'\d+[a-zA-Z]\^\{\d+\}',        # 숫자*알파벳^{숫자}     ex) 3a^{3}
+            r'\([a-zA-Z]\+\d+\)',           # (알파벳+숫자)         ex) (a+2)  
+            r'\([a-zA-Z]\-\d+\)',           # (알파벳-숫자)         ex) (a-2)
+            r'\([a-zA-Z]+\+[a-zA-Z]+\)',    # (알파벳+알파벳)       ex) (a+b) 
+            r'\([a-zA-Z]\-[a-zA-Z]+\)',     # (알파벳-알파벳)       ex) (a-b)
+            r'\(\d+\+[a-zA-Z]\)',           # (숫자+알파벳)         ex) (3+a)
+            r'\(\d+\-[a-zA-Z]\)',           # (숫자-알파벳)         ex) (3-a)
+            r'\d+[a-zA-Z]',                 # 숫자*알파벳           ex) 8a
+            r'[a-zA-Z]\_\d+',               # 알파벳_숫자           ex) a_7    
+            r'[a-zA-Z]\_[a-zA-Z]',          # 알파벳_알파벳         ex) a_k
+            r'\d+[a-zA-Z]\_\d+',            # 숫자*알파벳_숫자      ex) 3a_4
+            r'\d+[a-zA-Z]\_\[a-zA-Z]',      # 숫자*알파벳_알파벳    ex) 3a_k
+            r'sum_\{[a-z]=\d+\}\^\{\d+\}',  # sum_{알파벳=숫자}     ex) sum_{n=1}
+            r'f\^\{\-1\}\([^)]*\)',         # f^{-1}( )            ex) f^{-1}(3), f^{-1}(x)         
+            r'f\([^)]*\)'                   # f( )                 ex) f(3), f(x) 
         ]
         
         # 각 패턴에 맞는 단어를 사용자 사전에 추가
         for pattern in patterns:
             matches = re.findall(pattern, text)
             for match in set(matches):
-                kiwi.add_user_word(match, 'NNP', 100)  # NNP (고유명사) 태그로 추가
+                kiwi.add_user_word(match, 'NNP', 200)  # NNP (고유명사) 태그로 추가
 
 def generate_answer(prob_num, num):
     # xlsx 파일 경로 설정
